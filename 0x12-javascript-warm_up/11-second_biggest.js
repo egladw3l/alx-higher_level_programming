@@ -1,9 +1,9 @@
 #!/usr/bin/node
-if (process.argv.length <= 3) {
+if (process.argv[2] === undefined || (process.argv[3] === undefined)) {
   console.log(0);
 } else {
-  const args = process.argv.map(Number)
-    .slice(2, process.argv.length)
-    .sort((a, b) => a - b);
-  console.log(args[args.length - 2]);
+  process.argv.shift();
+  process.argv.shift();
+  const Myarray = process.argv.map(Number).sort((a, b) => a - b).reverse();
+  console.log(Myarray[1]);
 }
