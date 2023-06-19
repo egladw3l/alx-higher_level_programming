@@ -1,21 +1,29 @@
 #!/usr/bin/python3
 
+"""
+Lists all states from the states table of database hbtn_0e_0_usa.
+Usage: ./0-select_states.py <username> \
+                            <password> \
+                             <database-name>
+"""
+import sys
+import MySQLdb as db
 
-import MySQLdb
-from sys import argv
 
-'''
-a script that lists all states
-from the database
-'''
+def connect_and_query() -> None:
+
+    """Connect to the database and execute query"""
+    try:
+        cnx = db.connect(user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
+        cursor = cnx.cursor(cursorclass=db.cursors.Cursor)
+        cursor.execute('SELECT * FROM states ORDER BY `id` ASC;')
+        states = cursor.fetchall()
+
+        for state in states:
+            print(state)
+    except Exception as e:
+        return (e)
+
+
 if __name__ == "__main__":
-    con = MySQLdb.connect(
-        host="localhost", port=3306, user=argv[1],
-        password=argv[2], database=argv[3])
-    cursor = con.cursor()
-    cursor.execute("SELECT * FROM states ORDER BY id ASC")
-    db = cursor.fetchall()
-    for i in db:
-        print(i)
-    cursor.close()
-    db.close()
+    connect_and_query()
